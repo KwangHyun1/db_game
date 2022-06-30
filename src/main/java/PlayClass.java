@@ -1,12 +1,16 @@
+import dto.Enemy;
+
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 public class PlayClass {
     Scanner s = new Scanner(System.in);
+    // 랜덤값으로 몬스터 뽑기 오류 남
+    Enemy enemy = new Enemy();
     private int C1;
-    public int play1(String name){
-        System.out.printf("%s(이)가 여행을 떠난다.\n퉁퉁이를 만났다\n1. 싸운다\n2. 도망간다\n선택 : ", name);
+    public int play1(String name){ // 랜덤값으로 몬스터 뽑기 오류 남
+        System.out.printf("%s(이)가 여행을 떠난다.\n%s를 만났다\n1. 싸운다\n2. 도망간다\n선택 : ", name, enemy.getName());
         C1 = s.nextInt();
         return C1;
     }

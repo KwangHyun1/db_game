@@ -208,12 +208,13 @@ public class DBClass {
         }
 
     }
+    // 문제1
     public void selectEnemy1() {
         Connection conn = dbConn();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            String sql = "SELECT * FROM table ORDER BY RAND()";
+            String sql = "SELECT * FROM enemy ORDER BY RAND(1)";
 
             pstmt = conn.prepareStatement(sql);
 

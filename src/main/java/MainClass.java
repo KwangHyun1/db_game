@@ -4,6 +4,7 @@ public class MainClass {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
         GameClass gs = new GameClass();
+        DBClass db = new DBClass();
         // 게임 시작
         System.out.println("게임 스타트");
         // 1. 게임 설정 2. 플레이 게임 3. 저장된 정보 보기
@@ -17,6 +18,8 @@ public class MainClass {
 
         }else if(C1 == 2) {
             System.out.println("게임 플레이 스타트");
+            db.selectEnemy1();
+
             // 만약에 2번이면 게임이 시작된다/ 디비에 저장된 정보가 있으면 게임 시작(이전에 만든 시나리오 알아서)/ 디비에 저장된 정보가 없으면 게임 설정으로 가라고 안내 메세지
             GamePlay g = new GamePlay();
             g.play();
