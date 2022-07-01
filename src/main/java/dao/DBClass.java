@@ -1,6 +1,10 @@
+package dao;
+
 import java.sql.*;
+import java.util.ArrayList;
 
 import dto.Enemy;
+import dto.Enemy1;
 import dto.Item;
 import dto.Tb_Character;
 
@@ -209,23 +213,24 @@ public class DBClass {
 
     }
     // 문제1
-    public void selectEnemy1() {
+    public Enemy1 selectEnemy1() {
+        Enemy1 enemy1 = new Enemy1();
         Connection conn = dbConn();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            String sql = "SELECT * FROM enemy ORDER BY RAND(1)";
+            String sql = "SELECT * FROM enemy ORDER BY RAND() LIMIT 1;";
 
             pstmt = conn.prepareStatement(sql);
 
             rs = pstmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 String name = rs.getString("name");
                 int hp = rs.getInt("hp");
-                Enemy enemy = new Enemy();
-                enemy.setName(name);
-                enemy.setHp(hp);
-                System.out.printf("이름 : %s, 체력 : %d\n", name, hp);
+
+                enemy1.setName(name);
+                enemy1.setHp(hp);
+                System.out.printf("이름 : %s, 체력 : %d\n", enemy1.getName(), enemy1.getHp());
             }
 
         } catch (SQLException e) {
@@ -246,7 +251,7 @@ public class DBClass {
                 e.printStackTrace();
             }
         }
-
+        return enemy1;
     }
     public void insertCharacter(Tb_Character tb_character) {
         //쿼리문 준비
@@ -317,4 +322,114 @@ public class DBClass {
         }
 
     }
+    public <Tb_Character> ArrayList<dto.Tb_Character> select() {
+        ArrayList<dto.Tb_Character> list = new ArrayList<>();
+        Connection conn = dbConn();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "select * from tb_character";
+
+            pstmt = conn.prepareStatement(sql);
+
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                int hp = rs.getInt("hp");
+                String job = rs.getString("job");
+                System.out.printf("캐릭터 이름 : %s, 체력 : %d, 직업\n", name, hp, job);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("error: " + e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return list;
+    }
+    public Tb_Character select(String name) {
+        Tb_Character dto = new Tb_Character();
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Connection conn = dbConn();   // db 연결 메소드
+        try {
+            String sql = "select * from tb_character where name = ?";
+
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                dto.setId(rs.getInt("id"));
+                dto.setName(rs.getString("name"));
+                dto.setHp(rs.getInt("hp"));
+                dto.setJob(rs.getString("job"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("error: " + e);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+
+                if (conn != null && !conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return dto;
+
+    }
+    public void update(int hp, int id) {
+        //쿼리문 준비
+        String sql = "UPDATE `tb_character` SET `hp`= ? WHERE  `id`= ?";
+        PreparedStatement pstmt = null;
+        Connection conn = dbConn();   // db 연결 메소드
+        try {
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, hp);
+            pstmt.setInt(2, id);
+
+            int result = pstmt.executeUpdate();
+            if (result == 1) {
+                System.out.println("데이터 삽입 성공!");
+            }
+
+        } catch (Exception e) {
+            System.out.println("데이터 삽입 실패!");
+        } finally {
+            try {
+                if (pstmt != null && !pstmt.isClosed()) {
+                    pstmt.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
+
+
 }

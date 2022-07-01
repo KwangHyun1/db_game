@@ -1,3 +1,4 @@
+import dao.DBClass;
 import dto.Enemy;
 import dto.Item;
 import dto.Tb_Character;
@@ -63,7 +64,8 @@ public class GameClass {
     }
     public int gameData(int C2){
         while (C2<4) {
-            System.out.print("1. 캐릭터 정보 2. 아이템 정보 3. 몬스터 정보 4. 종료 : ");
+            System.out.println("1. 캐릭터 정보 2. 아이템 정보 3. 몬스터 정보 4. 종료  ");
+            System.out.print("입력 : ");
             int C1 = s.nextInt();
             C2 = C1;
             if (C1 == 1) {

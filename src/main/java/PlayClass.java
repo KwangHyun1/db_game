@@ -1,4 +1,6 @@
+import dao.DBClass;
 import dto.Enemy;
+import dto.Enemy1;
 
 import java.util.List;
 import java.util.Random;
@@ -6,17 +8,21 @@ import java.util.Scanner;
 
 public class PlayClass {
     Scanner s = new Scanner(System.in);
+    DBClass db = new DBClass();
     // 랜덤값으로 몬스터 뽑기 오류 남
-    Enemy enemy = new Enemy();
+    Enemy1 e = db.selectEnemy1();
+    String ename = e.getName();
+    int ehp = e.getHp();
     private int C1;
     public int play1(String name){ // 랜덤값으로 몬스터 뽑기 오류 남
-        System.out.printf("%s(이)가 여행을 떠난다.\n%s를 만났다\n1. 싸운다\n2. 도망간다\n선택 : ", name, enemy.getName());
+        System.out.printf("%s(이)가 여행을 떠난다.\n %s를 만났다\n1. 싸운다\n2. 도망간다\n선택 : ", name, ename);
         C1 = s.nextInt();
         return C1;
     }
     public void play2(String name, int C1, List<ItemsClass> item, List<ItemsClass> at) {
 
         if (C1 == 1) {
+            System.out.println(ename+" HP: "+ehp );
             System.out.printf("1. 10번 콤보 공격\n2. 아이템 사용\n3. 방어\n선택 : ");
             int C2 = s.nextInt();
             if (C2 == 1) {

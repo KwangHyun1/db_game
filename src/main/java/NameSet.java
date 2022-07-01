@@ -25,9 +25,10 @@ public class NameSet {
         ItemsClass ic = new ItemsClass();
         System.out.printf("몇개의 아이템을 사용하시겠습니까?\n갯수입력 : ");
         int n = s.nextInt();
+        s.nextLine();
         for(int i=0; i<n; i++){
             System.out.print("아이템 입력 : ");
-            String it = s.next();
+            String it = s.nextLine();
             ic.setItems(it);
             System.out.print("속성 입력 : ");
             it = s.next();
